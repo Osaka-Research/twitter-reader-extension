@@ -1,0 +1,27 @@
+/* Twitter Reader highlight & notification */
+
+.twr-highlight {
+  outline: 3px solid #1d9bf0 !important;
+  outline-offset: 4px !important;
+  border-radius: 12px !important;
+  background: rgba(29, 155, 240, 0.06) !important;
+  transition: outline 0.2s ease;
+}
+
+#twr-notify {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1d9bf0;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 14px;
+  z-index: 999999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}

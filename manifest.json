@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Twitter Reader & Auto-Scroller",
+  "version": "1.0.0",
+  "update_url": "https://raw.githubusercontent.com/Osaka-Research/twitter-reader-extension/main/twitter-reader-extension/updates.xml",
+  "description": "Auto-scroll Twitter/X and read tweets aloud with text-to-speech.",
+  "permissions": ["activeTab", "storage", "scripting"],
+  "host_permissions": [
+    "https://twitter.com/*",
+    "https://x.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://twitter.com/*", "https://x.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

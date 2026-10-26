@@ -1,0 +1,66 @@
+name: Release Extension
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'twitter-reader-extension/**'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read current version
+        id: ver
+        run: |
+          VERSION=$(python3 -c "import json; print(json.load(open('twitter-reader-extension/manifest.json'))['version'])")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Zip extension
+        run: |
+          cd twitter-reader-extension
+          zip -r ../twitter-reader-extension.zip . --exclude ".github/*" --exclude "*.git*"
+
+      - name: Update updates.xml version
+        run: |
+          VERSION=${{ steps.ver.outputs.version }}
+          sed -i "s/version='[^']*'/version='$VERSION'/" twitter-reader-extension/updates.xml
+
+      - name: Commit updated updates.xml
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add twitter-reader-extension/updates.xml
+          git diff --staged --quiet || git commit -m "ci: sync updates.xml to v${{ steps.ver.outputs.version }}"
+          git push
+
+      - name: Delete existing release if same tag
+        run: |
+          gh release delete "v${{ steps.ver.outputs.version }}" --yes 2>/dev/null || true
+          git push --delete origin "v${{ steps.ver.outputs.version }}" 2>/dev/null || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.ver.outputs.version }}
+          name: Twitter Reader v${{ steps.ver.outputs.version }}
+          body: |
+            ## Twitter Reader & Auto-Scroller
+
+            ### Install
+            1. Download `twitter-reader-extension.zip`
+            2. Unzip it
+            3. Open `chrome://extensions` → Enable Developer Mode → Load Unpacked → select the folder
+
+            ### Auto-Update
+            Chrome checks `updates.xml` on this repo automatically.
+          files: twitter-reader-extension.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

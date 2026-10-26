@@ -1,0 +1,197 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  width: 340px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  background: #0f1117;
+  color: #e7e9ea;
+}
+
+.app { padding: 0 0 12px; }
+
+/* Header */
+header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid #2f3336;
+  background: #16181c;
+}
+
+.logo {
+  width: 22px;
+  height: 22px;
+  color: #1d9bf0;
+  flex-shrink: 0;
+}
+
+h1 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #e7e9ea;
+}
+
+/* Status bar */
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #0f1117;
+  border-bottom: 1px solid #2f3336;
+  font-size: 12px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot.idle    { background: #71767b; }
+.dot.scroll  { background: #00ba7c; }
+.dot.reading { background: #1d9bf0; }
+.dot.both    { background: #ffd400; }
+
+#status-text { flex: 1; color: #71767b; }
+.count { color: #1d9bf0; font-weight: 600; }
+
+/* Cards */
+.card {
+  margin: 10px 12px 0;
+  background: #16181c;
+  border: 1px solid #2f3336;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+h2 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #71767b;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 10px;
+}
+
+/* Speed row */
+.speed-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.speed-row label {
+  font-size: 12px;
+  color: #71767b;
+  width: 36px;
+  flex-shrink: 0;
+}
+
+input[type="range"] {
+  flex: 1;
+  accent-color: #1d9bf0;
+  height: 4px;
+  cursor: pointer;
+}
+
+.speed-row span {
+  font-size: 12px;
+  color: #e7e9ea;
+  width: 32px;
+  text-align: right;
+}
+
+/* Buttons */
+.btn-row {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity .15s, transform .1s;
+}
+.btn:active { transform: scale(.97); }
+
+.btn.primary {
+  background: #1d9bf0;
+  color: #fff;
+}
+.btn.primary:hover { opacity: .88; }
+
+.btn.primary.active {
+  background: #e0245e;
+}
+
+.btn.secondary {
+  background: #2f3336;
+  color: #e7e9ea;
+}
+.btn.secondary:hover { background: #3a3f44; }
+
+.btn.tts.active { background: #e0245e; }
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: #1d9bf0;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+.icon-btn:hover { color: #60c0ff; }
+
+/* Tweet list */
+.tweets-card { max-height: 260px; display: flex; flex-direction: column; }
+
+.tweets-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.tweets-header h2 { margin-bottom: 0; }
+
+#tweet-list {
+  flex: 1;
+  overflow-y: auto;
+  list-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: #2f3336 transparent;
+}
+
+#tweet-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid #2f3336;
+  line-height: 1.4;
+}
+#tweet-list li:last-child { border-bottom: none; }
+
+.tweet-author {
+  font-weight: 700;
+  color: #1d9bf0;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.tweet-text {
+  font-size: 12px;
+  color: #e7e9ea;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.muted { color: #71767b; font-size: 12px; text-align: center; padding: 12px 0; display: none; }
