@@ -1,6 +1,5 @@
 const MANIFEST_URL = 'https://raw.githubusercontent.com/Osaka-Research/twitter-reader-extension/main/manifest.json';
 const RELEASES_URL = 'https://github.com/Osaka-Research/twitter-reader-extension/releases/latest';
-const CHECK_INTERVAL_MS = 5 * 60 * 1000; // every 5 minutes
 
 function parseVersion(v) {
   return v.split('.').map(Number);
@@ -34,21 +33,18 @@ async function checkForUpdate() {
       });
     }
   } catch (_) {}
+
+  // schedule next check at a random time within 10 seconds
+  setTimeout(checkForUpdate, Math.random() * 10_000);
 }
 
 chrome.notifications.onButtonClicked.addListener((id) => {
-  if (id === 'update-available') {
-    chrome.tabs.create({ url: RELEASES_URL });
-  }
+  if (id === 'update-available') chrome.tabs.create({ url: RELEASES_URL });
 });
 
 chrome.notifications.onClicked.addListener((id) => {
-  if (id === 'update-available') {
-    chrome.tabs.create({ url: RELEASES_URL });
-  }
+  if (id === 'update-available') chrome.tabs.create({ url: RELEASES_URL });
 });
 
-// Check on install/startup and then every hour
 chrome.runtime.onInstalled.addListener(checkForUpdate);
 chrome.runtime.onStartup.addListener(checkForUpdate);
-setInterval(checkForUpdate, CHECK_INTERVAL_MS);
