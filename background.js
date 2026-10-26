@@ -1,6 +1,6 @@
 const MANIFEST_URL = 'https://raw.githubusercontent.com/Osaka-Research/twitter-reader-extension/main/manifest.json';
 const RELEASES_URL = 'https://github.com/Osaka-Research/twitter-reader-extension/releases/latest';
-const CHECK_INTERVAL_MS = 60 * 60 * 1000; // every hour
+const CHECK_INTERVAL_MS = 5 * 60 * 1000; // every 5 minutes
 
 function parseVersion(v) {
   return v.split('.').map(Number);
