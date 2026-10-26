@@ -2,67 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Twitter Reader</title>
-  <link rel="stylesheet" href="popup.css" />
+  <style>
+    body {
+      width: 220px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f1117;
+      color: #e7e9ea;
+      padding: 16px;
+      text-align: center;
+    }
+    .logo { color: #1d9bf0; font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    p { font-size: 12px; color: #71767b; margin-bottom: 14px; line-height: 1.5; }
+    button {
+      width: 100%; padding: 10px; border: none; border-radius: 20px;
+      background: #1d9bf0; color: #fff; font-size: 13px; font-weight: 700;
+      cursor: pointer;
+    }
+    button:hover { opacity: .85; }
+  </style>
 </head>
 <body>
-  <div class="app">
-    <header>
-      <svg class="logo" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.261 5.632 5.903-5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-      </svg>
-      <h1>Twitter Reader</h1>
-    </header>
-
-    <section class="status-bar">
-      <span id="status-dot" class="dot idle"></span>
-      <span id="status-text">Ready</span>
-      <span id="tweet-count" class="count">— tweets</span>
-    </section>
-
-    <!-- ── Scroll Controls ── -->
-    <section class="card">
-      <h2>Auto-Scroll</h2>
-
-      <div class="speed-row">
-        <label for="speed-slider">Speed</label>
-        <input type="range" id="speed-slider" min="1" max="20" value="3" />
-        <span id="speed-val">3</span>
-      </div>
-
-      <div class="btn-row">
-        <button id="btn-scroll-top" class="btn secondary" title="Back to top">&#8679; Top</button>
-        <button id="btn-scroll" class="btn primary">&#9654; Start Scroll</button>
-      </div>
-    </section>
-
-    <!-- ── Read Controls ── -->
-    <section class="card">
-      <h2>Read Aloud (TTS)</h2>
-
-      <div class="speed-row">
-        <label for="rate-slider">Rate</label>
-        <input type="range" id="rate-slider" min="5" max="20" value="11" />
-        <span id="rate-val">1.1×</span>
-      </div>
-
-      <div class="btn-row">
-        <button id="btn-read" class="btn primary tts">&#128266; Start Reading</button>
-      </div>
-    </section>
-
-    <!-- ── Tweet List ── -->
-    <section class="card tweets-card">
-      <div class="tweets-header">
-        <h2>Visible Tweets</h2>
-        <button id="btn-refresh" class="icon-btn" title="Refresh">&#8635;</button>
-      </div>
-      <ul id="tweet-list"></ul>
-      <p id="no-tweets" class="muted">Open Twitter/X and refresh.</p>
-    </section>
-  </div>
-
+  <div class="logo">𝕏 Reader</div>
+  <p>The control panel floats on the Twitter/X page.<br/>Use the button below to show it.</p>
+  <button id="btn">Show Overlay</button>
   <script src="popup.js"></script>
 </body>
 </html>
