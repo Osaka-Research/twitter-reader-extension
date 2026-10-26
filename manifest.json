@@ -2,7 +2,8 @@
   "manifest_version": 3,
   "name": "Twitter Reader & Auto-Scroller",
   "version": "1.0.0",
-  "update_url": "https://raw.githubusercontent.com/Osaka-Research/twitter-reader-extension/main/twitter-reader-extension/updates.xml",
+  "update_url": "https://raw.githubusercontent.com/Osaka-Research/twitter-reader-extension/main/updates.xml",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8Xxn7dDycFLQTp27ImEr0jDuX42rXEn7+2dqtKlIri8YDlcpnpO198zT/cu3tS4i3GF1dHbMr81wAMvqQGpp8BNB2m+O0HV2ByIoZQdQX61Up8VToIaudarrkRD+/JZNnEvL6Yao7oX7/hzsk8enIr4hleiopcEa7tqqowELKyJQB2OKWTmvYhKq3s+ehkyMn77Kau4gb9/vACcGFjUVA0AaunP8g904roidsNi6J6VzjkiB2veK3YhvdfBwaHYJtLPIB2IXP2HI+EaWW+N2LCBZzS0qyiLwEfn47vzNytiPKLEHleINAtkoC2+llTbP4Low24828nNkvlSu2EYOXwIDAQAB",
   "description": "Auto-scroll Twitter/X and read tweets aloud with text-to-speech.",
   "permissions": ["activeTab", "storage", "scripting"],
   "host_permissions": [

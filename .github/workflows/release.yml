@@ -1,10 +1,8 @@
-name: Release Extension
+name: Build & Release CRX
 
 on:
   push:
     branches: [main]
-    paths:
-      - 'twitter-reader-extension/**'
 
 jobs:
   release:
@@ -15,31 +13,48 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Read current version
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install crx builder
+        run: npm install -g crx3
+
+      - name: Read version
         id: ver
         run: |
-          VERSION=$(python3 -c "import json; print(json.load(open('twitter-reader-extension/manifest.json'))['version'])")
+          VERSION=$(node -e "console.log(require('./manifest.json').version)")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Zip extension
+      - name: Write private key
         run: |
-          cd twitter-reader-extension
-          zip -r ../twitter-reader-extension.zip . --exclude ".github/*" --exclude "*.git*"
+          echo "${{ secrets.EXTENSION_PRIVATE_KEY }}" | base64 -d > key.pem
+
+      - name: Build CRX
+        run: |
+          # Remove the key field from manifest before packing (Chrome adds it automatically)
+          node -e "
+            const fs = require('fs');
+            const m = JSON.parse(fs.readFileSync('manifest.json'));
+            delete m.key;
+            fs.writeFileSync('manifest.json', JSON.stringify(m, null, 2));
+          "
+          crx3 pack . --key-path key.pem --crx-path twitter-reader-extension.crx
+          # Restore key field
+          git checkout manifest.json
 
       - name: Update updates.xml version
         run: |
           VERSION=${{ steps.ver.outputs.version }}
-          sed -i "s/version='[^']*'/version='$VERSION'/" twitter-reader-extension/updates.xml
-
-      - name: Commit updated updates.xml
-        run: |
+          sed -i "s/version='[^']*'/version='$VERSION'/" updates.xml
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add twitter-reader-extension/updates.xml
-          git diff --staged --quiet || git commit -m "ci: sync updates.xml to v${{ steps.ver.outputs.version }}"
+          git add updates.xml
+          git diff --staged --quiet || git commit -m "ci: bump updates.xml to v$VERSION [skip ci]"
           git push
 
-      - name: Delete existing release if same tag
+      - name: Delete existing release tag
         run: |
           gh release delete "v${{ steps.ver.outputs.version }}" --yes 2>/dev/null || true
           git push --delete origin "v${{ steps.ver.outputs.version }}" 2>/dev/null || true
@@ -52,15 +67,15 @@ jobs:
           tag_name: v${{ steps.ver.outputs.version }}
           name: Twitter Reader v${{ steps.ver.outputs.version }}
           body: |
-            ## Twitter Reader & Auto-Scroller
+            ## Install
 
-            ### Install
-            1. Download `twitter-reader-extension.zip`
-            2. Unzip it
-            3. Open `chrome://extensions` → Enable Developer Mode → Load Unpacked → select the folder
+            1. Download **twitter-reader-extension.crx** below
+            2. Open `chrome://extensions` → enable **Developer Mode**
+            3. Drag & drop the `.crx` file onto the page
+            4. Chrome will auto-update this extension on future pushes automatically
 
-            ### Auto-Update
-            Chrome checks `updates.xml` on this repo automatically.
-          files: twitter-reader-extension.zip
+            ## Extension ID
+            `nbbpndkinhdhcdkhadiblapbfnbeficb`
+          files: twitter-reader-extension.crx
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
